@@ -61,14 +61,16 @@ public class RouterController {
             return "views/login";
         } catch (IncorrectCredentialsException ice) {
             //密码错误
-        } catch (LockedAccountException lae) {
             model.addAttribute("msg","密码错误");
+            return "views/login";
+        } catch (LockedAccountException lae) {
+            model.addAttribute("msg","账号已锁定");
             return "views/login";
         }
         catch (AuthenticationException ae) {
             model.addAttribute("msg","其他错误");
             return "views/login";
         }
-        return "views/login";
+
     }
 }

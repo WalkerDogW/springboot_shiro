@@ -6,12 +6,21 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import site.javaee.springboot_shiro.pojo.User;
+import site.javaee.springboot_shiro.service.UserService;
+import site.javaee.springboot_shiro.service.impl.UserServiceImpl;
 
 /**
  * @author Tao
  * @create 2020/4/26 13:43
  */
 public class UserRealm extends AuthorizingRealm {
+
+    @Autowired
+    UserService userService;
+
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -29,12 +38,26 @@ public class UserRealm extends AuthorizingRealm {
         String password = "123456";
 
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
-
-        if (!usernamePasswordToken.getUsername().equals(name)) {
-            return null;//抛出异常 UnknownAccountException
+        User user = userService.queryUserByName(usernamePasswordToken.getUsername());
+//
+//        if (!usernamePasswordToken.getUsername().equals(name)) {
+//            return null;//抛出异常 UnknownAccountException
+//        }
+        if(user == null){
+            return null;
         }
+
+        //颜值加密
+        /*
+        String realmName = getName();
+        ByteSource credentialsSalt = ByteSource.Util.bytes(user.getUsername());
+        return new SimpleAuthenticationInfo(user, user.getPassword(),
+                credentialsSalt, realmName);
+
+         */
 
         //密码认证，shiro做
         return new SimpleAuthenticationInfo("", password, "");
+
     }
 }

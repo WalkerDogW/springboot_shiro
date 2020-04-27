@@ -1,4 +1,4 @@
-debug: true
+# debug: true
 
 
 #服务器
@@ -11,8 +11,8 @@ spring:
   datasource:
     username: tao
     password: tao
-    url: jdbc:mysql://47.100.136.208:3306/jdbc
-    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.100.136.208:3306/tao
+    driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
     minIdle: 5
@@ -36,6 +36,8 @@ spring:
 #    schema:
 #      - classpath:department.sql
 
+
+
 #日志
 logging:
   level:
@@ -44,3 +46,8 @@ logging:
 
 
 #前端
+
+
+mybatis:
+  type-aliases-package: site/javaee/springboot_shiro/pojo
+  mapper-locations: classpath:mapper/*.xml
