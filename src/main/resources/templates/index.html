@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" >
 <head>
     <meta charset="UTF-8">
     <title>shiro</title>
@@ -19,7 +20,7 @@
     <div><a href="/level2/3">level2-3</a></div>
 </div>
 <br>
-<div>
+<div shiro:hasPermission="user:level3">
     <div><a href="/level3/1">level3-1</a></div>
     <div><a href="/level3/2">level3-2</a></div>
     <div><a href="/level3/3">level3-3</a></div>
@@ -27,15 +28,14 @@
 <br>
 
 <!--如果未登录-->
-<div>
-    <div><a th:href="@{/login}">login</a></div>
+<div shiro:guest>
+    <div><a th:href="@{/toLogin}">login</a></div>
 </div>
 <!--如果登陆-->
-<div>
+<div shiro:user>
     <div><a th:href="@{/logout}">logout</a></div>
     <div>
-        用户名：<span> </span>
-        角色：<span></span>
+        用户名：<span><shiro:principal property="username"/> </span>
     </div>
 </div>
 

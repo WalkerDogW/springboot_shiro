@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import site.javaee.springboot_shiro.config.ShiroQuickstart;
 
 /**
@@ -17,11 +18,13 @@ import site.javaee.springboot_shiro.config.ShiroQuickstart;
  */
 @Controller
 public class RouterController {
+    //首页
     @RequestMapping({"/","/index"})
     public String index(){
         return "index";
     }
 
+    //去往登录页面
     @RequestMapping({"/toLogin"})
     public String toLogin(){
         return "views/login";
@@ -43,6 +46,7 @@ public class RouterController {
         return "views/level3/"+id;
     }
 
+    //登录页面
     @RequestMapping("/login")
     public String login(String username, String password, Model model){
         //获取当前用户
@@ -71,6 +75,21 @@ public class RouterController {
             model.addAttribute("msg","其他错误");
             return "views/login";
         }
+    }
 
+    //未授权页面
+    @RequestMapping("/unauth")
+    @ResponseBody
+    public String unauthorized(){
+        return "未经授权无法访问此页面";
+    }
+
+    //注销页面
+    @RequestMapping("/logout")
+    public String logout(Model model){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        model.addAttribute("msg","安全退出");
+        return "views/login";
     }
 }
